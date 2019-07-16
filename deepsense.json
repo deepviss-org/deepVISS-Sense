@@ -134,6 +134,46 @@
           }
         }
       },
+      "PackedObservation": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "0d",
+              "1d",
+              "2d",
+              "3d",
+              "4d"
+            ]
+          },
+          "precision": {
+            "type": "string",
+            "enum": [
+              "integer",
+              "long",
+              "float",
+              "double"
+            ]
+          },
+          "collectionStartTime": {
+            "type": "string",
+            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+          },
+          "collectionEndTime": {
+            "type": "string",
+            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+          },
+          "observerId": {
+            "type": "string",
+            "description": "[TBD] Alpha-numeric, unique id of dataset",
+            "example": "UWRBFUWRW18B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0EUWEBFWUBEFWUE"
+          }
+        }
+      },
+
       "Observation": {
         "type": "object",
         "properties": {
