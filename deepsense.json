@@ -100,47 +100,123 @@
   },
   "components": {
     "schemas": {
-      "Avatar": {
-        "type": "object",
-        "properties": {
-          "avatarId": {
-            "type": "string",
-            "description": "[TBD] Alpha-numeric, unique id of avatar",
-            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
-          },
-          "lifeForm": {
-            "type": "string",
-            "enum": [
-              "silicon",
-              "carbon"
-            ]
-          }
-        }
-      },
       "Observer": {
         "type": "object",
-        "description": "Represents autonomous observer, such as a camera, a phone or a IoT device",
+        "description": "Represents a collection of instruments installed on the same autonomous device, which represents the observer",
         "properties": {
           "observerId": {
             "type": "string",
-            "description": "[TBD] Alpha-numeric, unique id of the observer",
-            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+            "description": "Alpha-numeric, unique id of the instrument",
+            "example": "E80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
           },
           "type": {
             "type": "string",
             "enum": [
               "desktop-user",
               "mobile-user",
-              "station",
               "smartphone",
               "iot-device",
               "virtual-iot-device"
-
             ]
+          },
+          "SpatialPosition": {
+            "$ref": "#/definitions/Observation",
+            "type": "Observation",
+            "description": "Spatial position of the instrument"
           }
         }
       },
-
+      "Instrument": {
+        "type": "object",
+        "required": [
+          "observerId"
+        ],
+        "description": "Represents an atomic instrument, such as a sensor",
+        "properties": {
+          "instrumentId": {
+            "type": "string",
+            "description": "[TBD] Alpha-numeric, unique id of the instrument",
+            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+          },
+          "name": {
+            "type": "string",
+            "description": "[TBD] Alpha-numeric, unique id of the instrument",
+            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "sensor",
+              "virtual-sensor",
+              "smartphone",
+              "desktop-computer"
+            ]
+          },
+          "RelativeSpatialPosition": {
+            "$ref": "#/definitions/Observation",
+            "type": "Observation",
+            "description": "Spatial position of instrument"
+          }
+        }
+      },
+      "InstrumentConfiguration": {
+        "type": "object",
+        "required": [
+          "observerId"
+        ],
+        "description": "[private] Represents the technical details of the instrument, such as a particular sensor.",
+        "properties": {
+          "observerId": {
+            "type": "string",
+            "description": "[TBD] Alpha-numeric, unique id of avatar",
+            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+          },
+          "vendor": {
+            "type": "string",
+            "description": "The name of the vendor",
+            "example": [
+              "Huawei",
+              "Alcatel"
+            ]
+          },
+          "make": {
+            "type": "string",
+            "description": "The series name of this component",
+            "example": ""
+          },
+          "model": {
+            "type": "string",
+            "description": "The exact model of this component ",
+            "example": "P65"
+          },
+          "manufacturingDate": {
+            "type": "string",
+            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+          },
+          "installationDate": {
+            "type": "string",
+            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+          },
+          "measurements": {
+            "description": "Type of measurements supported by this instrument",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Measurement",
+              "type": "Measurement"
+            }
+          },
+          "maintenanceEvent": {
+            "description": "The list of maintenance events that have been performed",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/MaintenanceEvent",
+              "type": "MaintenanceEvent"
+            }
+          }
+        }
+      },
       "SpatialPosition": {
         "type": "object",
         "properties": {
@@ -160,19 +236,69 @@
             "format": "double"
           },
           "pitch": {
-            "description": "Pitch rotation of the observer, measured in sexagesimal degrees (not radians)",
+            "description": "Pitch rotation of the observer, measured in sexagesimal degrees (not radians), relative to a reference which is perpendicular to the ground, line of sight paralel to the ground, facing north",
             "type": "number",
             "format": "double"
           },
           "yaw": {
-            "description": "Yaw rotation of the observer, measured in sexagesimal degrees (not radians)",
+            "description": "Yaw rotation of the observer, measured in sexagesimal degrees (not radians), relative to a reference which is perpendicular to the ground, line of sight paralel to the ground, facing north",
             "type": "number",
             "format": "double"
           },
           "roll": {
-            "description": "Roll rotation of the observer, measured in sexagesimal degrees (not radians)",
+            "description": "Roll rotation of the observer, measured in sexagesimal degrees (not radians), relative to a reference which is perpendicular to the ground, line of sight paralel to the ground, facing north",
             "type": "number",
             "format": "double"
+          },
+          "correctionX": {
+            "description": "dX: Any on-site adjustment to the position of the observer, measured in meters.",
+            "type": "number",
+            "format": "double"
+          },
+          "correctionY": {
+            "description": "dY: Any on-site adjustment to the position of the observer, measured in meters.",
+            "type": "number",
+            "format": "double"
+          },
+          "correctionZ": {
+            "description": "dZ: Any on-site adjustment to the position of the observer, measured in meters.",
+            "type": "number",
+            "format": "double"
+          },
+          "reference": {
+            "type": "string",
+            "enum": [
+              "ground-fixed",
+              "ground-with-correction"
+            ]
+          }
+        }
+      },
+      "RelativeSpatialPosition": {
+        "type": "object",
+        "properties": {
+          "correctionX": {
+            "description": "dX: Any on-site adjustment to the position of the observer, measured in meters.",
+            "type": "number",
+            "format": "double"
+          },
+          "correctionY": {
+            "description": "dY: Any on-site adjustment to the position of the observer, measured in meters.",
+            "type": "number",
+            "format": "double"
+          },
+          "correctionZ": {
+            "description": "dZ: Any on-site adjustment to the position of the observer, measured in meters.",
+            "type": "number",
+            "format": "double"
+          },
+          "referenceObserverId": {
+            "type": "string",
+            "description": "Id of the observer to which this instrument is attached.",
+            "example": [
+              "UQJWIFRQFJKSERGQF",
+              "BWREIUGWHBGUI"
+            ]
           }
         }
       },
@@ -182,12 +308,19 @@
           "name": {
             "type": "string",
             "description": "Human readable definition or symbol",
-            "example": ["air temperature", "wind speed"]
+            "example": [
+              "air temperature",
+              "wind speed"
+            ]
           },
           "unitSI": {
             "type": "string",
             "description": "Human readable definition or symbol",
-            "example": ["T", "m/s", "m/s^2"]
+            "example": [
+              "T",
+              "m/s",
+              "m/s^2"
+            ]
           },
           "measurementId": {
             "type": "string",
@@ -196,34 +329,44 @@
           }
         }
       },
-
-
-      "ObserverConfiguration": {
+      "MaintenanceEvent": {
         "type": "object",
-        "description": "Represents the technical details of the autonomous observer, such as a camera, a phone or a IoT device. Maps to Observer.",
         "properties": {
-          "observerId": {
+          "maintenanceEventId": {
             "type": "string",
-            "description": "[TBD] Alpha-numeric, unique id of avatar",
-            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+            "description": "The unique id of this type of the maintenance event",
+            "example": "68EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
           },
-          "type": {
+          "startTime": {
             "type": "string",
-            "enum": [
-              "desktop-user",
-              "mobile-user",
-              "station",
-              "smartphone"
-            ]
+            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
           },
-          "SpatialPosition": {
-            "$ref": "#/definitions/Observation",
-            "type": "Observation",
-            "description": "Spatial position of observer"
+          "endTime": {
+            "type": "string",
+            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+          },
+          "decommissionedParts": {
+            "description": "Sensors or parts that have been decommissioned",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/InstrumentConfiguration",
+              "type": "InstrumentConfiguration"
+            }
+          },
+          "installedParts": {
+            "description": "Sensors or parts that have been installed",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/InstrumentConfiguration",
+              "type": "InstrumentConfiguration"
+            }
           }
         }
       },
       "PackedObservation": {
+        "description": "Encoded format for high-volume data formats (picture, video, audio or other tensorforms)",
         "type": "object",
         "properties": {
           "type": {
@@ -263,12 +406,13 @@
         }
       },
       "Transmission": {
+        "description": "Encoded format for high-volume data formats (picture, video, audio or other tensorforms)",
         "type": "object",
         "properties": {
           "protocolVersion": {
             "type": "integer",
             "format": "int32",
-            "description": "Size of files when represented in binary, without additional encoding. Used for de-duplication.",
+            "description": "Sequential number of protocol version (the version of this file)",
             "example": 1345789
           },
           "timestampCommInit": {
@@ -276,14 +420,42 @@
             "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
             "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
           },
+          "firmwareId": {
+            "type": "string",
+            "description": "The "
+          },
           "recordCount": {
             "type": "integer",
             "format": "int32",
             "description": "Sequence number of transmission.",
             "example": 1345789
           },
+          "records": {
+            "description": "Observation which have occurred in the same time-window are grouped into the same record.",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Record",
+              "type": "Record"
+            }
+          }
+        }
+      },
+      "Record": {
+        "type": "object",
+        "description": "Registered observations from scalar instruments (collect one or just a few measurements per transmission)",
+        "properties": {
+          "startSamplingTime": {
+            "type": "string",
+            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "description": "Formerly timestampAcqBegin. Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+          },
+          "endSamplingTime": {
+            "type": "string",
+            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "description": "Formerly timestampAcqEnd. Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+          },
           "observations": {
-            "description": "Registered observations",
+            "description": "Observation which have occurred in the same time-window are grouped into the same record.",
             "type": "array",
             "items": {
               "$ref": "#/definitions/Observation",
@@ -292,37 +464,60 @@
           }
         }
       },
-      "Observation": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "scalar",
-              "rgb-static-photo",
-              "rgb-live-photo",
-              "rgb-video",
-              "audio-rgb-video",
-              "audio-only",
-              "text"
-            ]
-          },
-          "creationTimestamp": {
-            "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
-          },
-          "lastUpdateTimestamp": {
-            "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+        "Observation": {
+          "description": "The observation, as it occurred in the specified time-window",
+          "type": "object",
+          "properties": {
+            "instrumentName": {
+              "type": "string",
+              "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+              "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+            },
+            "instrumentHeatlh": {
+              "type": "string",
+              "enum": [
+                "healthy",
+                "inconsistent",
+                "malfunction",
+                "unreachable"
+              ]
+            },
+            "value": {
+              "type": "SampledValue",
+              "description": "Statistical features of the observable captured during the observation time-window"
+            }
+          }
+        },
+
+        "SampledValue": {
+          "description": "Statistical features of the observable captured during the observation time-window",
+          "type": "object",
+          "properties": {
+            "min": {
+              "description": "Minimum value encountered during sampling",
+              "type": "number",
+              "format": "double"
+            },
+            "average": {
+              "description": "The average (arithmetic mean) of the readings",
+              "type": "number",
+              "format": "double"
+            },
+            "median": {
+              "description": "Median value encountered during sampling",
+              "type": "number",
+              "format": "double"
+            },
+            "max": {
+              "description": "Maximum value encountered during sampling",
+              "type": "number",
+              "format": "double"
+            }
           }
         }
       }
+    },
 
-
-    }
-  },
   "externalDocs": {
     "description": "Find out more about DeepVISS",
     "url": "https://deepviss.org"

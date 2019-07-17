@@ -36,7 +36,7 @@ public class MockController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(value = "/observation", method = RequestMethod.GET, produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/observation", method = RequestMethod.GET, produces= { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     List<DeepSenseObservation> getObservation(
     ) throws IOException, InterruptedException {
         List<DeepSenseObservation> observations=observationMocker.getObservations();
@@ -46,10 +46,10 @@ public class MockController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(value = "/transmission", method = RequestMethod.GET, produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    List<DeepSenseTransmission> getTransmission(
+    @RequestMapping(value = "/transmission", method = RequestMethod.GET,  produces= { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    DeepSenseTransmission getTransmission(
     ) throws IOException, InterruptedException {
-        List<DeepSenseTransmission> transmissions=observationMocker.getTransmission();
+        DeepSenseTransmission transmissions=observationMocker.getOneTransmission();
 
         return transmissions;
 
