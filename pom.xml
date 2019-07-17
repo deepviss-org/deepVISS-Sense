@@ -109,10 +109,10 @@
 						<configuration>
 							<inputSpec>${project.basedir}/deepsense.json</inputSpec>
 							<generatorName>spring</generatorName>
-							<modelPackage>org.deepviss.deepvissserver.model</modelPackage>
-							<apiPackage>org.deepviss.deepvissserver.api</apiPackage>
-							<invokerPackage>org.deepviss.deepvissserver.invoker</invokerPackage>
-							<modelNamePrefix>DeepVISS</modelNamePrefix>
+							<modelPackage>org.deepsense.server.model</modelPackage>
+							<apiPackage>org.deepsense.server.api</apiPackage>
+							<invokerPackage>org.deepsense.server.invoker</invokerPackage>
+							<modelNamePrefix>DeepSense</modelNamePrefix>
 							<configOptions>
 								<sourceFolder>target/generated-sources/java/main</sourceFolder>
 							</configOptions>
