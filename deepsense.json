@@ -119,18 +119,107 @@
       },
       "Observer": {
         "type": "object",
+        "description": "Represents autonomous observer, such as a camera, a phone or a IoT device",
         "properties": {
-          "avatarId": {
+          "observerId": {
+            "type": "string",
+            "description": "[TBD] Alpha-numeric, unique id of the observer",
+            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "desktop-user",
+              "mobile-user",
+              "station",
+              "smartphone",
+              "iot-device",
+              "virtual-iot-device"
+
+            ]
+          }
+        }
+      },
+
+      "SpatialPosition": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "description": "The latitude at which the observer is installed.",
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "description": "The longitude at which the observer is installed.",
+            "type": "number",
+            "format": "double"
+          },
+          "elevation": {
+            "description": "The elevation from the ground at which the observer is installed, measured in meters.",
+            "type": "number",
+            "format": "double"
+          },
+          "pitch": {
+            "description": "Pitch rotation of the observer, measured in sexagesimal degrees (not radians)",
+            "type": "number",
+            "format": "double"
+          },
+          "yaw": {
+            "description": "Yaw rotation of the observer, measured in sexagesimal degrees (not radians)",
+            "type": "number",
+            "format": "double"
+          },
+          "roll": {
+            "description": "Roll rotation of the observer, measured in sexagesimal degrees (not radians)",
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Measurement": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human readable definition or symbol",
+            "example": ["air temperature", "wind speed"]
+          },
+          "unitSI": {
+            "type": "string",
+            "description": "Human readable definition or symbol",
+            "example": ["T", "m/s", "m/s^2"]
+          },
+          "measurementId": {
+            "type": "string",
+            "description": "The unique id of this type of measurement",
+            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+          }
+        }
+      },
+
+
+      "ObserverConfiguration": {
+        "type": "object",
+        "description": "Represents the technical details of the autonomous observer, such as a camera, a phone or a IoT device. Maps to Observer.",
+        "properties": {
+          "observerId": {
             "type": "string",
             "description": "[TBD] Alpha-numeric, unique id of avatar",
             "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
           },
-          "lifeForm": {
+          "type": {
             "type": "string",
             "enum": [
-              "silicon",
-              "carbon"
+              "desktop-user",
+              "mobile-user",
+              "station",
+              "smartphone"
             ]
+          },
+          "SpatialPosition": {
+            "$ref": "#/definitions/Observation",
+            "type": "Observation",
+            "description": "Spatial position of observer"
           }
         }
       },
@@ -227,230 +316,10 @@
             "type": "string",
             "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
             "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
-          },
-          "owningAccountId": {
-            "type": "string",
-            "description": "[TBD] Alpha-numeric, unique id of dataset",
-            "example": "UWRBFUWRW18B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0EUWEBFWUBEFWUE"
-          },
-          "name": {
-            "type": "string",
-            "description": "[TBD] Alpha-numeric, name of dataset",
-            "example": "Dogs"
-          }
-        }
-      },
-      "Challenge": {
-        "type": "object",
-        "properties": {
-          "challengeId": {
-            "type": "string",
-            "description": "Alpha-numeric, unique id of challenge. ",
-            "example": "DFK768EF053898993DD196397EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
-          },
-          "datasetId": {
-            "type": "string",
-            "description": "Alpha-numeric, unique id of dataset",
-            "example": "DFK768EF053898993DD196397EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
-          },
-          "evaluationPolicyId": {
-            "type": "string",
-            "description": "Alpha-numeric, unique id of evaluation policy",
-            "example": "DFK768EF053898993DD196397EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
-          },
-          "creationTimestamp": {
-            "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "open",
-              "closed"
-            ]
-          },
-          "accessType": {
-            "type": "string",
-            "enum": [
-              "public",
-              "private",
-              "confidential"
-            ]
-          },
-          "name": {
-            "type": "string",
-            "description": "[TBD] Alpha-numeric, name of dataset",
-            "example": "Dogs"
-          },
-          "completionPercentage": {
-            "type": "int",
-            "description": "completion percentage of a challenge",
-            "example": "70"
-          }
-        }
-      },
-      "MediaDescriptor": {
-        "type": "object",
-        "properties": {
-          "size": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Size of files when represented in binary, without additional encoding. Used for de-duplication.",
-            "example": 1345789
-          },
-          "hash": {
-            "type": "string",
-            "description": "Cryptographic hash of original file. Used for de-duplication.",
-            "example": "FGX8993DD196397EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
-          },
-          "pHash": {
-            "type": "string",
-            "description": "Perceptual representation of the content of the media. Used for de-duplication.",
-            "example": "pre"
-          }
-        }
-      },
-      "MediaItem": {
-        "type": "object",
-        "properties": {
-          "mediaItemId": {
-            "type": "string",
-            "description": "[TBD] Alpha-numeric, unique id of media item",
-            "example": "UERE80768EF053898993DD196397EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "rgb-static-photo",
-              "rgb-live-photo",
-              "rgb-video",
-              "audio-rgb-video",
-              "audio-only",
-              "text"
-            ]
-          },
-          "format": {
-            "type": "string",
-            "enum": [
-              "image/heif",
-              "image/heic",
-              "image/heif-sequence",
-              "image/jpeg",
-              "image/png",
-              "video/mp4",
-              "video/3gpp",
-              "video/quicktime",
-              "video/x-msvideo",
-              "video/x-ms-wmv"
-            ]
-          },
-          "descriptor": {
-            "type": "MediaDescriptor",
-            "$ref": "#/definitions/MediaDescriptor",
-            "description": "Information about the evaluation of the accuracy of this tag."
-          }
-
-        }
-      },
-      "Evaluation": {
-        "type": "object",
-        "description": "The confidence of a merged tag (from several tags) or the overall.",
-        "properties": {
-          "confidence": {
-            "description": "The confidence of the merged tag (from several tags), based on IoU (Intersection over Union) of the composing tags",
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "Task": {
-        "type": "object",
-        "properties": {
-          "taskId": {
-            "type": "Avatar",
-            "$ref": "#/definitions/Avatar",
-            "description": "Alpha-numeric, unique id of user who has performed the task",
-            "example": "7E43358680768EF053898993DD196397EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
-          },
-          "avatarId": {
-            "type": "string",
-            "description": "Alpha-numeric, unique id of user who has performed the task.",
-            "example": "7E43358680768EF053898993DD196397EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
-          },
-          "challengeId": {
-            "type": "string",
-            "description": "Alpa-numeric, unique id of challenge. ",
-            "example": "7E43358680768EF053898993DD196397EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
-          },
-          "attemptSequenceNumber": {
-            "type": "string",
-            "description": "Identifies the number of evaluation attempts performed on this specific media item.",
-            "example": 2
-          },
-          "generationTimestamp": {
-            "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00) when the task was requested by the user"
-          },
-          "submissionTimestamp": {
-            "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00) when the task was submitted by the user"
-          },
-          "evaluationStatus": {
-            "type": "string",
-            "enum": [
-              "unallocated",
-              "leased",
-              "not-evaluated",
-              "passed",
-              "failed",
-              "skipped",
-              "timed-out"
-            ]
-          }
-        }
-      },
-
-
-
-      "EvaluationPolicy": {
-        "type": "object",
-        "description": "The parameters used in the evaluation of a challenge, its tasks and their tags.",
-        "properties": {
-          "evaluationPolicyId": {
-            "description": "Unique ID of evaluation policy",
-            "type": "string"
-          },
-          "spatialOverlapThreshold": {
-            "description": "The minimum amount of overlap between two tags, which, in conjuction with a matching object-type, is a condition for merging two tags",
-            "type": "number",
-            "format": "double",
-            "example": 0.5
-          },
-          "harshness": {
-            "description": "The penalty incurred for a tag that is NOT matched with other tags",
-            "type": "number",
-            "format": "double",
-            "example": 0.5
-          },
-          "rankOfMean": {
-            "description": "The rank (power) of the generalized mean used for evaluating a task composed of several tags. Negative values mean harsher evaluations, values larger than 1.0 mean less harsh evaluations. Default value is 1.0 (arithmetic mean). ",
-            "type": "number",
-            "format": "double",
-            "example": 1.0
-          },
-          "summationType": {
-            "description": "If set to 'algebraic', negative results on one task will be substracted from user payout.",
-            "type": "string",
-            "enum": [
-              "algebraic",
-              "non-negative"
-            ]
           }
         }
       }
+
 
     }
   },
