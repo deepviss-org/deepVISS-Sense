@@ -1,39 +1,224 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.0.1",
   "info": {
     "description": "DeepSense is a generic semantic API for retrieving, and managing streams of observations",
     "version": "1.1.0",
     "title": "DeepSense",
-    "termsOfService": "https://deepviss.ro",
+    "termsOfService": "https://enten.ro",
     "contact": {
       "name":"Bogdan Bocse",
       "email": "bogdan@enten.ro"
     },
     "license": {
-      "name": "Apache 2.0",
-      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+      "name": "Enten API Usage License",
+      "url": "https://enten.ro"
     }
   },
   "tags": [
     {
-      "name": "dataset",
-      "description": "Information about the datasets",
+      "name": "observer",
+      "description": "Information about the observer.",
       "externalDocs": {
-        "description": "Datasets API",
-        "url": "https://deepviss.org"
+        "description": "Observer API",
+        "url": "https://enten.ro"
+      }
+    },
+    {
+      "name": "instrument",
+      "description": "Information about the instruments and measurements.",
+      "externalDocs": {
+        "description": "Instrument API",
+        "url": "https://enten.ro"
+      }
+    },
+    {
+      "name": "measurement",
+      "description": "Information about measurements.",
+      "externalDocs": {
+        "description": "Measurement API",
+        "url": "https://enten.ro"
+      }
+    },
+    {
+      "name": "observation",
+      "description": "Information about the observations performed.",
+      "externalDocs": {
+        "description": "Observation API",
+        "url": "https://enten.ro"
+      }
+    },
+    {
+      "name": "authentication",
+      "description": "Generate authentication token.",
+      "externalDocs": {
+        "description": "Token authentication endpoint",
+        "url": "https://enten.ro"
       }
     }
   ],
   "paths": {
+    "/observer/list": {
+      "get": {
+        "tags": [
+          "observer"
+        ],
+        "summary": "Retrieve the list of observers which the account is authorized for",
+        "description": "Get list of observers.",
+        "operationId": "GetObserverList",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Observer"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/instrument/list": {
+      "get": {
+        "tags": [
+          "instrument"
+        ],
+        "summary": "Retrieve the list of instruments that are mounted on a specific observer",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "GetInstrumentList",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "observerId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The identifier of the observer"
+          },
+          {
+            "in": "query",
+            "name": "instrumentId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The identifier of the instrument that is mounted on the observer."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Instrument"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/measurement/list": {
+      "get": {
+        "tags": [
+          "measurement"
+        ],
+        "summary": "Retrieve the list of measurements that are allowed by a specific instrument of a specific observer",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "GetMeasurementList",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "observerId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The identifier of the observer"
+          },
+          {
+            "in": "query",
+            "name": "instrumentId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The identifier of the instrument that is mounted on the observer."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Measurement"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
     "/observation/list": {
       "get": {
         "tags": [
-          "dataset"
+          "observation"
         ],
         "summary": "Retrieve a list of observations",
         "description": "Multiple status values can be provided with comma separated strings",
         "operationId": "GetObservationList",
-        "parameters": [],
+
+        "parameters": [
+          {
+            "in": "query",
+            "name": "observerId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The identifier of the observer"
+          },
+          {
+            "in": "query",
+            "name": "startTime",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The first moment of the period"
+          },
+          {
+            "in": "query",
+            "name": "endTime",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The last moment of the period"
+          }
+        ]
+      ,
         "responses": {
           "200": {
             "description": "successful operation",
@@ -54,10 +239,10 @@
         }
       }
     },
-    "/observation/create": {
+    "/observation/": {
       "post": {
         "tags": [
-          "dataset"
+          "observation"
         ],
         "summary": "Append an observation",
         "description": "Multiple status values can be provided with comma separated strings",
@@ -94,11 +279,132 @@
           }
         }
       }
+    },
+
+
+    "/event/list": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "Retrieve a list of events associated to an asset, such as a crop or a greenhouse.",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "GetEventList",
+
+        "parameters": [
+          {
+            "in": "query",
+            "name": "assetID",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The identifier of the asset"
+          },
+          {
+            "in": "query",
+            "name": "startTime",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "The first moment of the period"
+          },
+          {
+            "in": "query",
+            "name": "endTime",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "The last moment of the period"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Event"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/event/maintenance/list": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "Retrieve a list of maintenance events associated to an asset, such as a crop or a greenhouse.",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "GetEventListPerAsset",
+
+        "parameters": [
+          {
+            "in": "query",
+            "name": "assetID",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The identifier of the asset"
+          },
+          {
+            "in": "query",
+            "name": "startTime",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "The first moment of the period"
+          },
+          {
+            "in": "query",
+            "name": "endTime",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "The last moment of the period"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Event"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
     }
-
-
   },
   "components": {
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "Observer": {
         "type": "object",
@@ -120,8 +426,8 @@
             ]
           },
           "SpatialPosition": {
-            "$ref": "#/definitions/Observation",
-            "type": "Observation",
+            "$ref": "#/definitions/SpatialPosition",
+            "type": "SpatialPosition",
             "description": "Spatial position of the instrument"
           }
         }
@@ -153,8 +459,8 @@
             ]
           },
           "RelativeSpatialPosition": {
-            "$ref": "#/definitions/Observation",
-            "type": "Observation",
+            "$ref": "#/definitions/RelativeSpatialPosition",
+            "type": "RelativeSpatialPosition",
             "description": "Spatial position of instrument"
           }
         }
@@ -174,15 +480,12 @@
           "vendor": {
             "type": "string",
             "description": "The name of the vendor",
-            "example": [
-              "Huawei",
-              "Alcatel"
-            ]
+            "example": "Huawei"
           },
           "make": {
             "type": "string",
             "description": "The series name of this component",
-            "example": ""
+            "example": "Station"
           },
           "model": {
             "type": "string",
@@ -191,12 +494,12 @@
           },
           "manufacturingDate": {
             "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "format": "date-time",
             "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
           },
           "installationDate": {
             "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "format": "date-time",
             "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
           },
           "measurements": {
@@ -207,12 +510,12 @@
               "type": "Measurement"
             }
           },
-          "maintenanceEvent": {
+          "maintenanceEvents": {
             "description": "The list of maintenance events that have been performed",
             "type": "array",
             "items": {
-              "$ref": "#/definitions/MaintenanceEvent",
-              "type": "MaintenanceEvent"
+              "$ref": "#/definitions/Event",
+              "type": "Event"
             }
           }
         }
@@ -295,10 +598,8 @@
           "referenceObserverId": {
             "type": "string",
             "description": "Id of the observer to which this instrument is attached.",
-            "example": [
-              "UQJWIFRQFJKSERGQF",
-              "BWREIUGWHBGUI"
-            ]
+            "example":"QJWIFRQFJKSERGQ"
+
           }
         }
       },
@@ -308,62 +609,172 @@
           "name": {
             "type": "string",
             "description": "Human readable definition or symbol",
-            "example": [
-              "air temperature",
-              "wind speed"
-            ]
+            "example": "airTemperature"
+
           },
           "unitSI": {
             "type": "string",
             "description": "Human readable definition or symbol",
-            "example": [
-              "T",
-              "m/s",
-              "m/s^2"
-            ]
+            "example":  "mps2"
+
           },
           "measurementId": {
             "type": "string",
             "description": "The unique id of this type of measurement",
-            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+            "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818"
           }
         }
       },
-      "MaintenanceEvent": {
+      "Event": {
         "type": "object",
+        "discriminator": {
+          "propertyName": "eventType"
+        },
+        "required": [
+          "eventId",
+          "eventType"
+        ],
         "properties": {
-          "maintenanceEventId": {
+          "eventId": {
             "type": "string",
-            "description": "The unique id of this type of the maintenance event",
-            "example": "68EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+            "description": "Alpha-numeric, unique id of event",
+            "example": "EWFUWEGBUWRG342497EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
           },
-          "startTime": {
+          "eventType": {
             "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
-          },
-          "endTime": {
-            "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
-          },
-          "decommissionedParts": {
-            "description": "Sensors or parts that have been decommissioned",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/InstrumentConfiguration",
-              "type": "InstrumentConfiguration"
-            }
-          },
-          "installedParts": {
-            "description": "Sensors or parts that have been installed",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/InstrumentConfiguration",
-              "type": "InstrumentConfiguration"
-            }
+            "description": "discriminator",
+            "example": "ObserverMaintenanceEvent"
           }
         }
+      },
+      "ValidationEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "corroboratingUsers": {
+                "description": "IDs of users or user-avatars who confirm as event as relevant.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "startTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+              },
+              "endTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+              }
+            }
+          }
+        ]
+      },
+      "InferenceEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "corroboratingModels": {
+                "description": "IDs of models that have contributed to this prediction",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "format": "double"
+              },
+              "startTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+              },
+              "endTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+              }
+            }
+          }
+        ]
+      },
+      "AssetMaintenanceEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "startTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+              },
+              "endTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+              },
+              "appliedTreatments": {
+                "description": "IDs of treatments that have been applied",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ObserverMaintenanceEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "startTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+              },
+              "endTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+              },
+              "decommissionedParts": {
+                "description": "Sensors or parts that have been decommissioned",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/InstrumentConfiguration",
+                  "type": "InstrumentConfiguration"
+                }
+              },
+              "installedParts": {
+                "description": "Sensors or parts that have been installed",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/InstrumentConfiguration",
+                  "type": "InstrumentConfiguration"
+                }
+              }
+            }
+          }
+        ]
       },
       "PackedObservation": {
         "description": "Encoded format for high-volume data formats (picture, video, audio or other tensorforms)",
@@ -390,12 +801,12 @@
           },
           "collectionStartTime": {
             "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "format": "date-time",
             "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
           },
           "collectionEndTime": {
             "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "format": "date-time",
             "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
           },
           "observerId": {
@@ -417,14 +828,14 @@
           },
           "timestampCommInit": {
             "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "format": "date-time",
             "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
           },
           "firmwareId": {
             "type": "string",
             "description": "The "
           },
-          "recordCount": {
+          "transmissionCount": {
             "type": "integer",
             "format": "int32",
             "description": "Sequence number of transmission.",
@@ -444,14 +855,19 @@
         "type": "object",
         "description": "Registered observations from scalar instruments (collect one or just a few measurements per transmission)",
         "properties": {
+          "observerId":
+          {
+            "type": "string",
+            "description": "Reference to observer (by id) which has recorded this sequence of measurements."
+          },
           "startSamplingTime": {
             "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "format": "date-time",
             "description": "Formerly timestampAcqBegin. Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
           },
           "endSamplingTime": {
             "type": "string",
-            "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
+            "format": "date-time",
             "description": "Formerly timestampAcqEnd. Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
           },
           "observations": {
@@ -464,62 +880,80 @@
           }
         }
       },
-        "Observation": {
-          "description": "The observation, as it occurred in the specified time-window",
-          "type": "object",
-          "properties": {
-            "instrumentName": {
-              "type": "string",
-              "pattern": "/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/g",
-              "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
-            },
-            "instrumentHeatlh": {
-              "type": "string",
-              "enum": [
-                "healthy",
-                "inconsistent",
-                "malfunction",
-                "unreachable"
-              ]
-            },
-            "value": {
-              "type": "SampledValue",
-              "description": "Statistical features of the observable captured during the observation time-window"
-            }
-          }
-        },
-
-        "SampledValue": {
-          "description": "Statistical features of the observable captured during the observation time-window",
-          "type": "object",
-          "properties": {
-            "min": {
-              "description": "Minimum value encountered during sampling",
-              "type": "number",
-              "format": "double"
-            },
-            "average": {
-              "description": "The average (arithmetic mean) of the readings",
-              "type": "number",
-              "format": "double"
-            },
-            "median": {
-              "description": "Median value encountered during sampling",
-              "type": "number",
-              "format": "double"
-            },
-            "max": {
-              "description": "Maximum value encountered during sampling",
-              "type": "number",
-              "format": "double"
-            }
+      "Observation": {
+        "description": "The observation, as it occurred in the specified time-window",
+        "type": "object",
+        "properties": {
+          "instrumentId": {
+            "type": "string",
+            "description": "The randomly assigned identifier of the instrument type"
+          },
+          "instrumentHealth": {
+            "type": "string",
+            "enum": [
+              "healthy",
+              "inconsistent",
+              "malfunction",
+              "unreachable"
+            ]
+          },
+          "measurementId": {
+            "type": "string",
+            "description": "The randomly assigned identifier of the measurement type, as standardized in IS (International System)"
+          },
+          "value": {
+            "type": "SampledValue",
+            "description": "Statistical features of the observable captured during the observation time-window"
           }
         }
+      },
+
+      "SampledValue": {
+        "description": "Statistical features of the observable captured during the observation time-window",
+        "type": "object",
+        "properties": {
+
+          "min": {
+            "description": "Minimum value encountered during sampling",
+            "type": "number",
+            "format": "double"
+          },
+          "average": {
+            "description": "The average (arithmetic mean) of the readings",
+            "type": "number",
+            "format": "double"
+          },
+          "median": {
+            "description": "Median value encountered during sampling",
+            "type": "number",
+            "format": "double"
+          },
+          "max": {
+            "description": "Maximum value encountered during sampling",
+            "type": "number",
+            "format": "double"
+          },
+          "histogram": {
+            "description": "Distribution of measurement intensity on a requester-defined quantization lattice",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+
+        }
       }
-    },
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
 
   "externalDocs": {
-    "description": "Find out more about DeepVISS",
-    "url": "https://deepviss.org"
+    "description": "Find out more about DeepSense",
+    "url": "https://enten.ro"
   }
 }
