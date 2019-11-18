@@ -7,7 +7,7 @@
     "termsOfService": "https://deepviss.org",
     "contact": {
       "name":"Bogdan Bocse",
-      "email": "bogdan@enten.ro"
+      "email": "bogdan@bocse.ro"
     },
     "license": {
       "name": "Apache 2.0",
@@ -20,7 +20,7 @@
       "description": "Information about the observer.",
       "externalDocs": {
         "description": "Observer API",
-        "url": "https://enten.ro"
+        "url": "https://deepviss.org"
       }
     },
     {
@@ -28,7 +28,7 @@
       "description": "Information about the instruments and measurements.",
       "externalDocs": {
         "description": "Instrument API",
-        "url": "https://enten.ro"
+        "url": "https://deepviss.org"
       }
     },
     {
@@ -36,7 +36,7 @@
       "description": "Information about measurements.",
       "externalDocs": {
         "description": "Measurement API",
-        "url": "https://enten.ro"
+        "url": "https://deepviss.org"
       }
     },
     {
@@ -44,7 +44,7 @@
       "description": "Information about the observations performed.",
       "externalDocs": {
         "description": "Observation API",
-        "url": "https://enten.ro"
+        "url": "https://deepviss.org"
       }
     },
     {
@@ -52,7 +52,7 @@
       "description": "Generate authentication token.",
       "externalDocs": {
         "description": "Token authentication endpoint",
-        "url": "https://enten.ro"
+        "url": "https://deepviss.org"
       }
     }
   ],
