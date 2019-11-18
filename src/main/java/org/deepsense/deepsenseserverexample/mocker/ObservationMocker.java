@@ -31,6 +31,7 @@ public class ObservationMocker {
 
         observations.add(deepSenseObservation);
         deepSenseObservation.setValue(new DeepSenseSampledValue());
+        deepSenseObservation.setValue(new DeepSenseSampledValue());
         deepSenseObservation.getValue().setAverage(25.12);
         deepSenseObservation.getValue().setMax(28.39);
         deepSenseObservation.getValue().setMin(23.73);
@@ -38,6 +39,7 @@ public class ObservationMocker {
 
 
         DeepSenseObservation deepSenseObservation2=new DeepSenseObservation();
+        deepSenseObservation2.setValue(new DeepSenseSampledValue());
         deepSenseObservation2.getValue().setAverage(25.12);
         deepSenseObservation2.getValue().setMax(28.39);
         deepSenseObservation2.getValue().setMin(23.73);
@@ -60,8 +62,8 @@ public class ObservationMocker {
         deepSenseRecord.setObservations(new ArrayList<>());
 
         DeepSenseObservation deepSenseObservation=new DeepSenseObservation();
-        deepSenseObservation.setInstrumentName("Sensor 1");
-        deepSenseObservation.setInstrumentHeatlh(DeepSenseObservation.InstrumentHeatlhEnum.MALFUNCTION);
+        deepSenseObservation.setInstrumentId("DHR-34");
+        deepSenseObservation.setInstrumentHealth(DeepSenseObservation.InstrumentHealthEnum.HEALTHY);
         deepSenseObservation.setValue(new DeepSenseSampledValue());
         deepSenseObservation.getValue().setAverage(25.12);
         deepSenseObservation.getValue().setMax(28.39);

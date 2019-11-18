@@ -4,14 +4,14 @@
     "description": "DeepSense is a generic semantic API for retrieving, and managing streams of observations",
     "version": "1.1.0",
     "title": "DeepSense",
-    "termsOfService": "https://enten.ro",
+    "termsOfService": "https://deepviss.org",
     "contact": {
       "name":"Bogdan Bocse",
       "email": "bogdan@enten.ro"
     },
     "license": {
-      "name": "Enten API Usage License",
-      "url": "https://enten.ro"
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
   "tags": [
@@ -155,7 +155,6 @@
           {
             "in": "query",
             "name": "instrumentId",
-            "required": true,
             "schema": {
               "type": "string"
             },
@@ -954,6 +953,6 @@
 
   "externalDocs": {
     "description": "Find out more about DeepSense",
-    "url": "https://enten.ro"
+    "url": "https://deepviss.org"
   }
 }
