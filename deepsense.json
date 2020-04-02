@@ -1,90 +1,46 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "description": "DeepSense is a generic semantic API for retrieving, and managing streams of observations",
-    "version": "1.1.0",
     "title": "DeepSense",
-    "termsOfService": "https://deepviss.org",
+    "version": "1.1.0",
+    "description": "DeepSense is a generic semantic API for retrieving, and managing streams of observations",
+    "termsOfService": "https://enten.ro",
     "contact": {
-      "name":"Bogdan Bocse",
-      "email": "bogdan@bocse.ro"
+      "name": "Bogdan Bocse",
+      "email": "bogdan@enten.ro"
     },
     "license": {
-      "name": "Apache 2.0",
-      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+      "name": "Enten API Usage License",
+      "url": "https://enten.ro"
     }
   },
-  "tags": [
-    {
-      "name": "observer",
-      "description": "Information about the observer.",
-      "externalDocs": {
-        "description": "Observer API",
-        "url": "https://deepviss.org"
-      }
-    },
-    {
-      "name": "instrument",
-      "description": "Information about the instruments and measurements.",
-      "externalDocs": {
-        "description": "Instrument API",
-        "url": "https://deepviss.org"
-      }
-    },
-    {
-      "name": "measurement",
-      "description": "Information about measurements.",
-      "externalDocs": {
-        "description": "Measurement API",
-        "url": "https://deepviss.org"
-      }
-    },
-    {
-      "name": "observation",
-      "description": "Information about the observations performed.",
-      "externalDocs": {
-        "description": "Observation API",
-        "url": "https://deepviss.org"
-      }
-    },
-    {
-      "name": "authentication",
-      "description": "Generate authentication token.",
-      "externalDocs": {
-        "description": "Token authentication endpoint",
-        "url": "https://deepviss.org"
-      }
-    }
-  ],
   "paths": {
     "/observer/list": {
       "get": {
         "tags": [
           "observer"
         ],
-        "summary": "Retrieve the list of observers which the account is authorized for",
-        "description": "Get list of observers.",
-        "operationId": "GetObserverList",
-        "parameters": [
-        ],
         "responses": {
           "200": {
-            "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/Observer"
+                    "$ref": "#/components/schemas/Observer"
                   }
                 }
               }
-            }
+            },
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid status value"
           }
-        }
+        },
+        "operationId": "GetObserverList",
+        "summary": "Retrieve the list of observers which the account is authorized for",
+        "description": "Get list of observers."
       }
     },
     "/instrument/list": {
@@ -92,46 +48,46 @@
         "tags": [
           "instrument"
         ],
-        "summary": "Retrieve the list of instruments that are mounted on a specific observer",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "GetInstrumentList",
         "parameters": [
           {
-            "in": "query",
             "name": "observerId",
-            "required": true,
+            "description": "The identifier of the observer",
             "schema": {
               "type": "string"
             },
-            "description": "The identifier of the observer"
+            "in": "query",
+            "required": true
           },
           {
-            "in": "query",
             "name": "instrumentId",
+            "description": "The identifier of the instrument that is mounted on the observer.",
             "schema": {
               "type": "string"
             },
-            "description": "The identifier of the instrument that is mounted on the observer."
+            "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/Instrument"
+                    "$ref": "#/components/schemas/Instrument"
                   }
                 }
               }
-            }
+            },
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid status value"
           }
-        }
+        },
+        "operationId": "GetInstrumentList",
+        "summary": "Retrieve the list of instruments that are mounted on a specific observer",
+        "description": "Multiple status values can be provided with comma separated strings"
       }
     },
     "/measurement/list": {
@@ -139,46 +95,46 @@
         "tags": [
           "measurement"
         ],
-        "summary": "Retrieve the list of measurements that are allowed by a specific instrument of a specific observer",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "GetMeasurementList",
         "parameters": [
           {
-            "in": "query",
             "name": "observerId",
-            "required": true,
+            "description": "The identifier of the observer",
             "schema": {
               "type": "string"
             },
-            "description": "The identifier of the observer"
+            "in": "query",
+            "required": true
           },
           {
-            "in": "query",
             "name": "instrumentId",
+            "description": "The identifier of the instrument that is mounted on the observer.",
             "schema": {
               "type": "string"
             },
-            "description": "The identifier of the instrument that is mounted on the observer."
+            "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/Measurement"
+                    "$ref": "#/components/schemas/Instrument"
                   }
                 }
               }
-            }
+            },
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid status value"
           }
-        }
+        },
+        "operationId": "GetMeasurementList",
+        "summary": "Retrieve the list of measurements that are allowed by a specific instrument of a specific observer",
+        "description": "Multiple status values can be provided with comma separated strings"
       }
     },
     "/observation/list": {
@@ -186,56 +142,65 @@
         "tags": [
           "observation"
         ],
-        "summary": "Retrieve a list of observations",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "GetObservationList",
-
         "parameters": [
           {
-            "in": "query",
             "name": "observerId",
-            "required": true,
+            "description": "The identifier of the observer being queried",
             "schema": {
               "type": "string"
             },
-            "description": "The identifier of the observer"
+            "in": "query",
+            "required": true
           },
           {
-            "in": "query",
+            "name": "instrumentId",
+            "description": "The identifier of the instruments being queried from that observer",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "in": "query"
+          },
+          {
             "name": "startTime",
+            "description": "The first moment of the period",
             "schema": {
               "type": "string"
             },
-            "description": "The first moment of the period"
+            "in": "query"
           },
           {
-            "in": "query",
             "name": "endTime",
+            "description": "The last moment of the period",
             "schema": {
               "type": "string"
             },
-            "description": "The last moment of the period"
+            "in": "query"
           }
-        ]
-      ,
+        ],
         "responses": {
           "200": {
-            "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/Observation"
+                    "$ref": "#/components/schemas/Observation"
                   }
                 }
               }
-            }
+            },
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid status value"
           }
-        }
+        },
+        "operationId": "GetObservationList",
+        "summary": "Retrieve a list of observations",
+        "description": "Multiple status values can be provided with comma separated strings"
       }
     },
     "/observation/": {
@@ -243,99 +208,96 @@
         "tags": [
           "observation"
         ],
-        "summary": "Append an observation",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "CreateObservation",
         "parameters": [
           {
-            "in": "query",
             "name": "observationName",
             "schema": {
               "type": "string"
-            }
+            },
+            "in": "query"
           },
           {
-            "in": "query",
             "name": "observationType",
             "schema": {
               "type": "string"
-            }
+            },
+            "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/definitions/Observation"
+                  "$ref": "#/components/schemas/Observer"
                 }
               }
-            }
+            },
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid status value"
           }
-        }
+        },
+        "operationId": "CreateObservation",
+        "summary": "Append an observation",
+        "description": "Multiple status values can be provided with comma separated strings"
       }
     },
-
-
     "/event/list": {
       "get": {
         "tags": [
           "event"
         ],
-        "summary": "Retrieve a list of events associated to an asset, such as a crop or a greenhouse.",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "GetEventList",
-
         "parameters": [
           {
-            "in": "query",
             "name": "assetID",
+            "description": "The identifier of the asset",
             "schema": {
               "type": "string"
             },
-            "description": "The identifier of the asset"
+            "in": "query"
           },
           {
-            "in": "query",
             "name": "startTime",
+            "description": "The first moment of the period",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "type": "string"
             },
-            "description": "The first moment of the period"
+            "in": "query"
           },
           {
-            "in": "query",
             "name": "endTime",
+            "description": "The last moment of the period",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "type": "string"
             },
-            "description": "The last moment of the period"
+            "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/Event"
+                    "$ref": "#/components/schemas/Event"
                   }
                 }
               }
-            }
+            },
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid status value"
           }
-        }
+        },
+        "operationId": "GetEventList",
+        "summary": "Retrieve a list of events associated to an asset, such as a crop or a greenhouse.",
+        "description": "Multiple status values can be provided with comma separated strings"
       }
     },
     "/event/maintenance/list": {
@@ -343,178 +305,166 @@
         "tags": [
           "event"
         ],
-        "summary": "Retrieve a list of maintenance events associated to an asset, such as a crop or a greenhouse.",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "GetEventListPerAsset",
-
         "parameters": [
           {
-            "in": "query",
             "name": "assetID",
+            "description": "The identifier of the asset",
             "schema": {
               "type": "string"
             },
-            "description": "The identifier of the asset"
+            "in": "query"
           },
           {
-            "in": "query",
             "name": "startTime",
+            "description": "The first moment of the period",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "type": "string"
             },
-            "description": "The first moment of the period"
+            "in": "query"
           },
           {
-            "in": "query",
             "name": "endTime",
+            "description": "The last moment of the period",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "type": "string"
             },
-            "description": "The last moment of the period"
+            "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/Event"
+                    "$ref": "#/components/schemas/Event"
                   }
                 }
               }
-            }
+            },
+            "description": "successful operation"
           },
           "400": {
             "description": "Invalid status value"
           }
-        }
+        },
+        "operationId": "GetEventListPerAsset",
+        "summary": "Retrieve a list of maintenance events associated to an asset, such as a crop or a greenhouse.",
+        "description": "Multiple status values can be provided with comma separated strings"
       }
     }
   },
   "components": {
-    "securitySchemes" : {
-      "bearerAuth" : {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    },
     "schemas": {
       "Observer": {
-        "type": "object",
         "description": "Represents a collection of instruments installed on the same autonomous device, which represents the observer",
+        "type": "object",
         "properties": {
           "observerId": {
-            "type": "string",
             "description": "Alpha-numeric, unique id of the instrument",
+            "type": "string",
             "example": "E80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
           },
           "type": {
-            "type": "string",
             "enum": [
               "desktop-user",
               "mobile-user",
               "smartphone",
               "iot-device",
               "virtual-iot-device"
-            ]
+            ],
+            "type": "string"
           },
           "SpatialPosition": {
-            "$ref": "#/definitions/SpatialPosition",
-            "type": "SpatialPosition",
+            "$ref": "#/components/schemas/SpatialPosition",
             "description": "Spatial position of the instrument"
           }
         }
       },
       "Instrument": {
-        "type": "object",
+        "description": "Represents an atomic instrument, such as a sensor",
         "required": [
           "observerId"
         ],
-        "description": "Represents an atomic instrument, such as a sensor",
+        "type": "object",
         "properties": {
           "instrumentId": {
-            "type": "string",
             "description": "[TBD] Alpha-numeric, unique id of the instrument",
+            "type": "string",
             "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
           },
           "name": {
-            "type": "string",
             "description": "[TBD] Alpha-numeric, unique id of the instrument",
+            "type": "string",
             "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
           },
           "type": {
-            "type": "string",
             "enum": [
               "sensor",
               "virtual-sensor",
               "smartphone",
               "desktop-computer"
-            ]
+            ],
+            "type": "string"
           },
           "RelativeSpatialPosition": {
-            "$ref": "#/definitions/RelativeSpatialPosition",
-            "type": "RelativeSpatialPosition",
+            "$ref": "#/components/schemas/RelativeSpatialPosition",
             "description": "Spatial position of instrument"
           }
         }
       },
       "InstrumentConfiguration": {
-        "type": "object",
+        "description": "[private] Represents the technical details of the instrument, such as a particular sensor.",
         "required": [
           "observerId"
         ],
-        "description": "[private] Represents the technical details of the instrument, such as a particular sensor.",
+        "type": "object",
         "properties": {
           "observerId": {
+            "description": "[TBD] Alpha-numeric, unique id of instrument",
             "type": "string",
-            "description": "[TBD] Alpha-numeric, unique id of avatar",
             "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
           },
           "vendor": {
-            "type": "string",
             "description": "The name of the vendor",
+            "type": "string",
             "example": "Huawei"
           },
           "make": {
-            "type": "string",
             "description": "The series name of this component",
+            "type": "string",
             "example": "Station"
           },
           "model": {
-            "type": "string",
             "description": "The exact model of this component ",
+            "type": "string",
             "example": "P65"
           },
           "manufacturingDate": {
-            "type": "string",
             "format": "date-time",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+            "type": "string"
           },
           "installationDate": {
-            "type": "string",
             "format": "date-time",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+            "type": "string"
           },
           "measurements": {
             "description": "Type of measurements supported by this instrument",
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Measurement",
-              "type": "Measurement"
+              "$ref": "#/components/schemas/Measurement"
             }
           },
           "maintenanceEvents": {
             "description": "The list of maintenance events that have been performed",
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Event",
-              "type": "Event"
+              "$ref": "#/components/schemas/Event"
             }
           }
         }
@@ -523,56 +473,56 @@
         "type": "object",
         "properties": {
           "latitude": {
+            "format": "double",
             "description": "The latitude at which the observer is installed.",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "longitude": {
+            "format": "double",
             "description": "The longitude at which the observer is installed.",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "elevation": {
+            "format": "double",
             "description": "The elevation from the ground at which the observer is installed, measured in meters.",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "pitch": {
+            "format": "double",
             "description": "Pitch rotation of the observer, measured in sexagesimal degrees (not radians), relative to a reference which is perpendicular to the ground, line of sight paralel to the ground, facing north",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "yaw": {
+            "format": "double",
             "description": "Yaw rotation of the observer, measured in sexagesimal degrees (not radians), relative to a reference which is perpendicular to the ground, line of sight paralel to the ground, facing north",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "roll": {
+            "format": "double",
             "description": "Roll rotation of the observer, measured in sexagesimal degrees (not radians), relative to a reference which is perpendicular to the ground, line of sight paralel to the ground, facing north",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "correctionX": {
+            "format": "double",
             "description": "dX: Any on-site adjustment to the position of the observer, measured in meters.",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "correctionY": {
+            "format": "double",
             "description": "dY: Any on-site adjustment to the position of the observer, measured in meters.",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "correctionZ": {
+            "format": "double",
             "description": "dZ: Any on-site adjustment to the position of the observer, measured in meters.",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "reference": {
-            "type": "string",
             "enum": [
               "ground-fixed",
               "ground-with-correction"
-            ]
+            ],
+            "type": "string"
           }
         }
       },
@@ -580,25 +530,24 @@
         "type": "object",
         "properties": {
           "correctionX": {
+            "format": "double",
             "description": "dX: Any on-site adjustment to the position of the observer, measured in meters.",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "correctionY": {
+            "format": "double",
             "description": "dY: Any on-site adjustment to the position of the observer, measured in meters.",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "correctionZ": {
+            "format": "double",
             "description": "dZ: Any on-site adjustment to the position of the observer, measured in meters.",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "referenceObserverId": {
-            "type": "string",
             "description": "Id of the observer to which this instrument is attached.",
-            "example":"QJWIFRQFJKSERGQ"
-
+            "type": "string",
+            "example": "QJWIFRQFJKSERGQ"
           }
         }
       },
@@ -606,26 +555,23 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
             "description": "Human readable definition or symbol",
+            "type": "string",
             "example": "airTemperature"
-
           },
           "unitSI": {
-            "type": "string",
             "description": "Human readable definition or symbol",
-            "example":  "mps2"
-
+            "type": "string",
+            "example": "mps2"
           },
           "measurementId": {
-            "type": "string",
             "description": "The unique id of this type of measurement",
+            "type": "string",
             "example": "UTWKE80768EF05389899TDD196397EDFDDFBC81751818"
           }
         }
       },
       "Event": {
-        "type": "object",
         "discriminator": {
           "propertyName": "eventType"
         },
@@ -633,15 +579,16 @@
           "eventId",
           "eventType"
         ],
+        "type": "object",
         "properties": {
           "eventId": {
-            "type": "string",
             "description": "Alpha-numeric, unique id of event",
+            "type": "string",
             "example": "EWFUWEGBUWRG342497EDFDDFBC81751818B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
           },
           "eventType": {
-            "type": "string",
             "description": "discriminator",
+            "type": "string",
             "example": "ObserverMaintenanceEvent"
           }
         }
@@ -662,14 +609,14 @@
                 }
               },
               "startTime": {
-                "type": "string",
                 "format": "date-time",
-                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+                "type": "string"
               },
               "endTime": {
-                "type": "string",
                 "format": "date-time",
-                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+                "type": "string"
               }
             }
           }
@@ -691,18 +638,18 @@
                 }
               },
               "confidence": {
-                "type": "number",
-                "format": "double"
+                "format": "double",
+                "type": "number"
               },
               "startTime": {
-                "type": "string",
                 "format": "date-time",
-                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+                "type": "string"
               },
               "endTime": {
-                "type": "string",
                 "format": "date-time",
-                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+                "type": "string"
               }
             }
           }
@@ -717,14 +664,14 @@
             "type": "object",
             "properties": {
               "startTime": {
-                "type": "string",
                 "format": "date-time",
-                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+                "type": "string"
               },
               "endTime": {
-                "type": "string",
                 "format": "date-time",
-                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+                "type": "string"
               },
               "appliedTreatments": {
                 "description": "IDs of treatments that have been applied",
@@ -746,29 +693,27 @@
             "type": "object",
             "properties": {
               "startTime": {
-                "type": "string",
                 "format": "date-time",
-                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+                "type": "string"
               },
               "endTime": {
-                "type": "string",
                 "format": "date-time",
-                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+                "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+                "type": "string"
               },
               "decommissionedParts": {
                 "description": "Sensors or parts that have been decommissioned",
                 "type": "array",
                 "items": {
-                  "$ref": "#/definitions/InstrumentConfiguration",
-                  "type": "InstrumentConfiguration"
+                  "$ref": "#/components/schemas/InstrumentConfiguration"
                 }
               },
               "installedParts": {
                 "description": "Sensors or parts that have been installed",
                 "type": "array",
                 "items": {
-                  "$ref": "#/definitions/InstrumentConfiguration",
-                  "type": "InstrumentConfiguration"
+                  "$ref": "#/components/schemas/InstrumentConfiguration"
                 }
               }
             }
@@ -780,37 +725,37 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
             "enum": [
               "0d",
               "1d",
               "2d",
               "3d",
               "4d"
-            ]
+            ],
+            "type": "string"
           },
           "precision": {
-            "type": "string",
             "enum": [
               "integer",
               "long",
               "float",
               "double"
-            ]
+            ],
+            "type": "string"
           },
           "collectionStartTime": {
-            "type": "string",
             "format": "date-time",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+            "type": "string"
           },
           "collectionEndTime": {
-            "type": "string",
             "format": "date-time",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+            "type": "string"
           },
           "observerId": {
-            "type": "string",
             "description": "[TBD] Alpha-numeric, unique id of dataset",
+            "type": "string",
             "example": "UWRBFUWRW18B7FD1300124455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0EUWEBFWUBEFWUE"
           }
         }
@@ -820,61 +765,58 @@
         "type": "object",
         "properties": {
           "protocolVersion": {
-            "type": "integer",
             "format": "int32",
             "description": "Sequential number of protocol version (the version of this file)",
+            "type": "integer",
             "example": 1345789
           },
           "timestampCommInit": {
-            "type": "string",
             "format": "date-time",
-            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+            "description": "Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+            "type": "string"
           },
           "firmwareId": {
-            "type": "string",
-            "description": "The "
+            "description": "The ",
+            "type": "string"
           },
           "transmissionCount": {
-            "type": "integer",
             "format": "int32",
             "description": "Sequence number of transmission.",
+            "type": "integer",
             "example": 1345789
           },
           "records": {
             "description": "Observation which have occurred in the same time-window are grouped into the same record.",
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Record",
-              "type": "Record"
+              "$ref": "#/components/schemas/Record"
             }
           }
         }
       },
       "Record": {
-        "type": "object",
         "description": "Registered observations from scalar instruments (collect one or just a few measurements per transmission)",
+        "type": "object",
         "properties": {
-          "observerId":
-          {
-            "type": "string",
-            "description": "Reference to observer (by id) which has recorded this sequence of measurements."
+          "observerId": {
+            "description": "Reference to observer (by id) which has recorded this sequence of measurements.",
+            "type": "string"
           },
           "startSamplingTime": {
-            "type": "string",
             "format": "date-time",
-            "description": "Formerly timestampAcqBegin. Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+            "description": "Formerly timestampAcqBegin. Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+            "type": "string"
           },
           "endSamplingTime": {
-            "type": "string",
             "format": "date-time",
-            "description": "Formerly timestampAcqEnd. Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)"
+            "description": "Formerly timestampAcqEnd. Date and time expressed according to ISO 8601 (e.g. 2018-06-24T23:10:28+03:00)",
+            "type": "string"
           },
           "observations": {
             "description": "Observation which have occurred in the same time-window are grouped into the same record.",
             "type": "array",
             "items": {
-              "$ref": "#/definitions/Observation",
-              "type": "Observation"
+              "$ref": "#/components/schemas/Observation"
             }
           }
         }
@@ -884,64 +826,406 @@
         "type": "object",
         "properties": {
           "instrumentId": {
-            "type": "string",
-            "description": "The randomly assigned identifier of the instrument type"
+            "description": "The randomly assigned identifier of the instrument type",
+            "type": "string"
           },
           "instrumentHealth": {
-            "type": "string",
             "enum": [
               "healthy",
               "inconsistent",
               "malfunction",
               "unreachable"
-            ]
+            ],
+            "type": "string"
           },
           "measurementId": {
-            "type": "string",
-            "description": "The randomly assigned identifier of the measurement type, as standardized in IS (International System)"
+            "description": "The randomly assigned identifier of the measurement type, as standardized in IS (International System)",
+            "type": "string"
           },
           "value": {
-            "type": "SampledValue",
+            "$ref": "#/components/schemas/SampledValue",
             "description": "Statistical features of the observable captured during the observation time-window"
           }
         }
       },
-
       "SampledValue": {
         "description": "Statistical features of the observable captured during the observation time-window",
         "type": "object",
         "properties": {
-
           "min": {
+            "format": "double",
             "description": "Minimum value encountered during sampling",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "average": {
+            "format": "double",
             "description": "The average (arithmetic mean) of the readings",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "median": {
+            "format": "double",
             "description": "Median value encountered during sampling",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "max": {
+            "format": "double",
             "description": "Maximum value encountered during sampling",
-            "type": "number",
-            "format": "double"
+            "type": "number"
           },
           "histogram": {
-            "description": "Distribution of measurement intensity on a requester-defined quantization lattice",
+            "description": "Distribution of measurement intensity on a requester-defined quantization lattice, between min value and maximum value",
             "type": "array",
             "items": {
-              "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "type": "integer"
             }
           }
-
         }
+      },
+      "PartialProjection": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Projection"
+          },
+          {
+            "description": "Subpart of a projection. May be used to store a partial risk output by one of the model parts",
+            "type": "object",
+            "properties": {
+              "ownerProjectionId": {
+                "description": "The identifier of the owner projection which depends on this partial projection.Implement according to RFC-4122 with respect to the timestamp of its immutable creation moment",
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "Projection": {
+        "description": "The projection (prediction) output by a model. ",
+        "required": [
+          "projectionId",
+          "risk"
+        ],
+        "type": "object",
+        "properties": {
+          "projectionId": {
+            "description": "The identifier of this partial projection. Implement according to RFC-4122 with respect to the timestamp of its immutable creation moment.",
+            "type": "string"
+          },
+          "risk": {
+            "$ref": "#/components/schemas/InternalSubjectiveOpinion"
+          }
+        }
+      },
+      "ProjectionTimeline": {
+        "description": "The projection (prediction) output by a model. ",
+        "type": "object",
+        "properties": {
+          "projectionId": {
+            "description": "The identifier of this partial projection.  Implement according to RFC-4122 with respect to the timestamp of its immutable creation. ",
+            "type": "string"
+          },
+          "mutationType": {
+            "description": "The identifier of this partial projection",
+            "enum": [
+              "data_ingestion",
+              "data_inspection",
+              "confirmation",
+              "correction"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "Agent": {
+        "discriminator": {
+          "propertyName": "embodimentType"
+        },
+        "required": [
+          "agentId",
+          "embodimentType"
+        ],
+        "type": "object",
+        "properties": {
+          "agentId": {
+            "description": "[TBD] Represents the ephemerally-unique identifer of the agent. ",
+            "type": "string",
+            "example": "E80768EF05389899TDD196397EDFDDFBC81751818B7FD13001IU455B07E91CB289F87791D78064ECC93754F19B13D419489F162A150A22DD814CKAF0E"
+          },
+          "embodimentType": {
+            "enum": [
+              "human",
+              "machine"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "AgentModel": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Agent"
+          },
+          {
+            "required": [
+              "name",
+              "purpose",
+              "scoringPolicy"
+            ],
+            "type": "object",
+            "properties": {
+              "name": {
+                "description": "[TBD] Represents the publicly viewable name of the model. ",
+                "type": "string",
+                "example": "Plotarea tomatelor"
+              },
+              "purpose": {
+                "enum": [
+                  "OSS",
+                  "BSS"
+                ],
+                "type": "string"
+              },
+              "contextPolicies": {
+                "description": "Array of restrictions applied to this model",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ContextPolicy"
+                }
+              },
+              "scoringPolicy": {
+                "$ref": "#/components/schemas/ScoringPolicy"
+              },
+              "projection": {
+                "$ref": "#/components/schemas/Projection"
+              }
+            }
+          }
+        ]
+      },
+      "ThresholdPolicy": {
+        "required": [
+          "threshold"
+        ],
+        "type": "object",
+        "properties": {
+          "threshold": {
+            "format": "double",
+            "description": "a threshold for triggering a risk",
+            "type": "number",
+            "example": 0.1
+          },
+          "alert": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "silent",
+                "email",
+                "sms"
+              ],
+              "type": "string"
+            }
+          }
+        }
+      },
+      "WarningPolicy": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ThresholdPolicy"
+          },
+          {
+            "required": [
+              "quorum"
+            ],
+            "type": "object",
+            "properties": {
+              "quorum": {
+                "format": "int32",
+                "description": " (majority) if strictly more than this of partial risk have values larger than the defined threshold, then a warning is shown, indicating what are the factors to look out for (the partial risk which did NOT yet materialize)",
+                "type": "integer",
+                "example": 3
+              }
+            }
+          }
+        ]
+      },
+      "ContextPolicy": {
+        "type": "object",
+        "properties": {
+          "cultureTypeId": {
+            "format": "int32",
+            "description": "[TBD] Represents the id of the culture type that this is restricted to ",
+            "type": "integer",
+            "example": 24
+          },
+          "cultureSubTypeId": {
+            "format": "int32",
+            "description": "[TBD] Represents the id of the culture subtype from the above type that this is restricted to ",
+            "type": "integer",
+            "example": 5
+          },
+          "phenophaseStartId": {
+            "format": "int32",
+            "description": "[TBD] Represents the id of the culture subtype from the above type that this is restricted to ",
+            "type": "integer",
+            "example": 6
+          },
+          "phenophaseEndId": {
+            "format": "int32",
+            "description": "[TBD] Represents the id of the culture subtype from the above type that this is restricted to ",
+            "type": "integer",
+            "example": 8
+          },
+          "startDate": {
+            "$ref": "#/components/schemas/DateMonth",
+            "description": " the first calendar date when the risk described by the model is relevant"
+          },
+          "endDate": {
+            "$ref": "#/components/schemas/DateMonth",
+            "description": " the last calendar date when the risk described by the model is relevant"
+          },
+          "daysSinceSeedingStart": {
+            "format": "int32",
+            "description": " the first day relative to the start date of the crop when the risk described by the model is relevant",
+            "type": "integer",
+            "example": 20
+          },
+          "daysSinceSeedingEnd": {
+            "format": "int32",
+            "description": "the last day relative to the start date of the crop when the risk described by the model is relevant",
+            "type": "integer",
+            "example": 59
+          }
+        }
+      },
+      "DateMonth": {
+        "required": [
+          "day",
+          "month"
+        ],
+        "type": "object",
+        "properties": {
+          "day": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "month": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "ScoringPolicy": {
+        "type": "object",
+        "properties": {
+          "policy": {
+            "enum": [
+              "GEOMETRIC",
+              "MEAN",
+              "SQUARE",
+              "MAX",
+              "MIN",
+              "CUSTOM"
+            ],
+            "type": "string"
+          },
+          "p": {
+            "format": "int32",
+            "description": "power p configurable for CUSTOM policy",
+            "type": "integer",
+            "example": 2
+          }
+        }
+      },
+      "Filter": {
+        "required": [
+          "thresholdPolicies"
+        ],
+        "type": "object",
+        "properties": {
+          "thresholdPolicies": {
+            "description": "Array of policies applied to this filter",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ThresholdPolicy"
+            }
+          },
+          "warningPolicy": {
+            "$ref": "#/components/schemas/WarningPolicy"
+          }
+        }
+      },
+      "InternalSubjectiveOpinion": {
+        "description": "Three independent counters corresponding to belief, disbelief and uncertainty. mediated by a common denominator and multiplied by a base rate (probability in the absence of this information).",
+        "type": "object",
+        "properties": {
+          "attributedBeliefNumerator": {
+            "format": "int32",
+            "description": "Number of fulfillment points out of total that are attributed to belief that the opinion is TRUE. belief mass (bx) numerator accumulator.",
+            "type": "integer",
+            "example": 5
+          },
+          "attributedDisbeliefNumerator": {
+            "format": "int32",
+            "description": "Number of fulfillment points out of total that are attributed to belief that the opinion is FALSE. belief mass (dx) numerator accumulator",
+            "type": "integer",
+            "example": 2
+          },
+          "unattributedUncertaintyNumerator": {
+            "format": "int32",
+            "description": "Number of fulfillment points out of total that are unattributed to either belief or disbelief and thus represent uncertainty. uncertainty mass (ux) numerator accumulator.",
+            "type": "integer",
+            "example": 1
+          },
+          "commonDenominator": {
+            "format": "int32",
+            "description": "The normalizing factor (the common denominator) of uncertainty, belief and disbelief.",
+            "type": "integer",
+            "example": 1
+          },
+          "baseRateNumerator": {
+            "format": "int32",
+            "description": "The probability of the opinion being true in the absence of the information generating it.",
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "SubjectiveOpinion": {
+        "description": "One single ",
+        "type": "object",
+        "properties": {
+          "belief": {
+            "format": "double",
+            "description": "attributed to belief that the opinion is TRUE. belief mass (bx) normalized.",
+            "type": "number",
+            "example": 0.75
+          },
+          "disbelief": {
+            "format": "double",
+            "description": "attributed to belief that the opinion is FALSE. disbelief mass (dx)  normalized",
+            "type": "number",
+            "example": 0.2
+          },
+          "uncertainty": {
+            "format": "double",
+            "description": "unattributed to either belief or disbelief and thus represent uncertainty. uncertainty mass (ux) normalized.",
+            "type": "number",
+            "example": 0.1
+          },
+          "baseRateProbability": {
+            "format": "double",
+            "description": "The probability of the opinion being true in the absence of the information generating it.",
+            "type": "number",
+            "example": 0.001
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
       }
     }
   },
@@ -950,9 +1234,50 @@
       "bearerAuth": []
     }
   ],
-
+  "tags": [
+    {
+      "name": "observer",
+      "description": "Information about the observer.",
+      "externalDocs": {
+        "description": "Observer API",
+        "url": "https://enten.ro"
+      }
+    },
+    {
+      "name": "instrument",
+      "description": "Information about the instruments and measurements.",
+      "externalDocs": {
+        "description": "Instrument API",
+        "url": "https://enten.ro"
+      }
+    },
+    {
+      "name": "measurement",
+      "description": "Information about measurements.",
+      "externalDocs": {
+        "description": "Measurement API",
+        "url": "https://enten.ro"
+      }
+    },
+    {
+      "name": "observation",
+      "description": "Information about the observations performed.",
+      "externalDocs": {
+        "description": "Observation API",
+        "url": "https://enten.ro"
+      }
+    },
+    {
+      "name": "authentication",
+      "description": "Generate authentication token.",
+      "externalDocs": {
+        "description": "Token authentication endpoint",
+        "url": "https://enten.ro"
+      }
+    }
+  ],
   "externalDocs": {
     "description": "Find out more about DeepSense",
-    "url": "https://deepviss.org"
+    "url": "https://enten.ro"
   }
 }
