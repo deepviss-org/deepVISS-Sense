@@ -1158,21 +1158,33 @@
         "description": "Three independent counters corresponding to belief, disbelief and uncertainty. mediated by a common denominator and multiplied by a base rate (probability in the absence of this information).",
         "type": "object",
         "properties": {
+          "opinionEmitterId":
+          {
+            "type": "string",
+            "description": "Functional source, if any, for this opinion, such a specific condition ",
+            "example": "ocr"
+          },
+          "opinionReasonId":
+          {
+            "type": "string",
+            "description": "Reason evoked, invoked or inferred by source for this opinion.",
+            "example": "unreadable"
+          },
           "attributedBeliefNumerator": {
             "format": "int32",
-            "description": "Number of fulfillment points out of total that are attributed to belief that the opinion is TRUE. belief mass (bx) numerator accumulator.",
+            "description": "Number, signed and additive, of fulfillment points out of total that are attributed to belief that the opinion is TRUE. belief mass (bx) numerator accumulator.",
             "type": "integer",
             "example": 5
           },
           "attributedDisbeliefNumerator": {
             "format": "int32",
-            "description": "Number of fulfillment points out of total that are attributed to belief that the opinion is FALSE. belief mass (dx) numerator accumulator",
+            "description": "Number, signed and additive, of fulfillment points out of total that are attributed to belief that the opinion is FALSE. belief mass (dx) numerator accumulator",
             "type": "integer",
             "example": 2
           },
           "unattributedUncertaintyNumerator": {
             "format": "int32",
-            "description": "Number of fulfillment points out of total that are unattributed to either belief or disbelief and thus represent uncertainty. uncertainty mass (ux) numerator accumulator.",
+            "description": "Number, signed and additive, of fulfillment points out of total that are unattributed to either belief or disbelief and thus represent uncertainty. uncertainty mass (ux) numerator accumulator.",
             "type": "integer",
             "example": 1
           },
@@ -1184,16 +1196,28 @@
           },
           "baseRateNumerator": {
             "format": "int32",
-            "description": "The probability of the opinion being true in the absence of the information generating it.",
+            "description": "The probability of the opinion being true in the absence of the information generating it; this represents the default probability of a an element or character or letter appearing in a specific context",
             "type": "integer",
             "example": 1
           }
         }
       },
       "SubjectiveOpinion": {
-        "description": "One single ",
+        "description": "The reduced or collapsed version of InternalSubjectiveOpinion, with all beliefs and disbeliefs reduced per reason,emitter pair. ",
         "type": "object",
         "properties": {
+          "opinionEmitterId":
+          {
+            "type": "string",
+            "description": "Functional source, if any, for this opinion, such a specific condition or internal state encoutered. May be empty.",
+            "example": "ocr"
+          },
+          "opinionReasonId":
+          {
+            "type": "string",
+            "description": "Reason evoked, invoked or inferred by source for this opinion. May be empty.",
+            "example": "unreadable"
+          },
           "belief": {
             "format": "double",
             "description": "attributed to belief that the opinion is TRUE. belief mass (bx) normalized.",
